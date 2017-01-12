@@ -2,18 +2,27 @@
 
 // Compare the beginning identifier to the ID3 header.
 // Returns 1 if ID3 identifier is found and 0 if the identifier is not found.
-int check_id3_identifier(FILE *file) {
+int check_id3_identifier(const char* filepath) {
     static char ID3_identifier[3] = {0x49, 0x44, 0x33};
+    FILE *file;
     char file_identifier[3];
+    char valid_identifier = 1;
 
-    fseek(file, 0, SEEK_SET);
-    fread(&file_identifier, 1, 3, file);
-    for (int i = 0; i < 3; ++i) {
-        if (file_identifier[i] != ID3_identifier[i]) {
-            return 0;
+    file = fopen(filepath, "r");
+    if (file == NULL) {
+        valid_identifier = 0;
+    } else {
+        fseek(file, 0, SEEK_SET);
+        fread(&file_identifier, 1, 3, file);
+        for (int i = 0; i < 3; ++i) {
+            if (file_identifier[i] != ID3_identifier[i]) {
+                valid_identifier = 0;
+            }
         }
     }
-    return 1;
+
+    fclose(file);
+    return valid_identifier;
 }
 
 // Returns a non-synchsafe ID3v2 integer as a long.

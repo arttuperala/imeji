@@ -21,6 +21,8 @@ struct PictureData {
     char *data;
 };
 
+int check_id3_identifier(const char* filepath);
+
 long read_size_integer(char bytes[]);
 
 long read_synchsafe_size_integer(char bytes[]);
