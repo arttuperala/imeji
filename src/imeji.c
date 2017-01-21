@@ -141,6 +141,7 @@ struct PictureData get_id3_picture_data(const char* filepath) {
     struct ID3Header header;
 
     apic.size = 0;
+    apic.data = NULL;
 
     file = fopen(filepath, "r");
     if (file == NULL) {
